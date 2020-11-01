@@ -75,10 +75,10 @@ shuffledDistribution.forEach(element => {
 // console.log("P3", playerThree);
 // console.log("P4", playerFour);
 
-// playerOne.hands = [2, 5, 9]
-// playerTwo.hands = [3, 9, 9]
-// playerThree.hands = [2, 6, 13]
-// playerFour.hands = [4, 4, 9]
+playerOne.hands = [3, 4, 5]
+playerTwo.hands = [3, 4, 5]
+playerThree.hands = [3, 4, 5]
+playerFour.hands = [3, 4, 5]
 
 
 
@@ -98,7 +98,11 @@ const isOnePair = (object) => {
     }
 }
 
-const extraDealt = (array) => {
+const extraDealt = (array, balanceDeck) => {
+    let shuffledDeck = balanceDeck;
+    // console.log(array)
+    // console.log(shuffledDeck)
+    // console.log(shuffledDeck.length)
     if (array.length > 1) {
         for (let m = 0; m < array.length; m++) {
             array[m].extra.push(shuffledDeck[0]);
@@ -111,23 +115,25 @@ const extraDealt = (array) => {
             // console.log(array, currentComparison)
         }
         if (currentComparison.includes(1)) {
+            // console.log(shuffledDeck)
             let extraMax = Math.min(...currentComparison);
             let check = [];
             array.forEach((element) => (element.extra[element.extra.length - 1] === extraMax) ? check.push(element) : "")
             if (check.length === 1) {
                 return check[0].name;
             } else if (check.length > 1) {
-                return extraDealt(check);
+                return extraDealt(check, shuffledDeck);
             }
         } else {
+            // console.log(shuffledDeck)
             let extraMax = Math.max(...currentComparison);
             let check = [];
             array.forEach((element) => (element.extra[element.extra.length - 1] === extraMax) ? check.push(element) : "")
-            console.log(array)
+            // console.log(array)
             if (check.length === 1) {
                 return check[0].name;
             } else if (check.length > 1) {
-                return extraDealt(check);
+                return extraDealt(check, shuffledDeck);
             }
         }
     }
@@ -201,7 +207,7 @@ const checkWin = (array) => {
                         finalDistribution.push(newDistribution[index])
                     }
                 });
-                return extraDealt(finalDistribution);
+                return extraDealt(finalDistribution, shuffledDeck);
             }
         }
     } else if (ONEPAIR.length !== 0 && THREEOFAKIND.length === 0 && STRAIGHT.length === 0) {
@@ -278,7 +284,7 @@ const checkWin = (array) => {
                                 endDistribution.push(finalDistribution[index])
                             }
                         });
-                        return extraDealt(endDistribution);
+                        return extraDealt(endDistribution, shuffledDeck);
                     }
 
                 } else {
@@ -299,7 +305,7 @@ const checkWin = (array) => {
                         }
                     }
                     if (maxes[0] === maxes[1]) {
-                        return extraDealt(finalDistribution);
+                        return extraDealt(finalDistribution, shuffledDeck);
                     } else if (maxes.includes(1)) {
                         let winner = finalDistribution.find(value => value.hands.includes(1))
                         // console.log(winner)
@@ -392,7 +398,7 @@ const checkWin = (array) => {
                                 endDistribution.push(nextDistribution[index])
                             }
                         });
-                        return extraDealt(endDistribution);
+                        return extraDealt(endDistribution, shuffledDeck);
                     }
                 }
             }
@@ -464,7 +470,7 @@ const checkWin = (array) => {
                                 endDistribution.push(nextDistribution[index])
                             }
                         });
-                        return extraDealt(endDistribution);
+                        return extraDealt(endDistribution, shuffledDeck);
                     }
                 }
             }
@@ -475,4 +481,4 @@ const checkWin = (array) => {
 
 console.log("The winner is Player " + checkWin(shuffledDistribution) + "!");
 
-module.exports = { shuffleArray, isThreeOfAKind, checkWin }
+module.exports = { checkWin, extraDealt }
