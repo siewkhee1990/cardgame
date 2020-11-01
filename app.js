@@ -75,14 +75,12 @@ shuffledDistribution.forEach(element => {
 // console.log("P3", playerThree);
 // console.log("P4", playerFour);
 
-// playerOne.hands = [9, 11, 13]
-// playerTwo.hands = [9, 11, 13]
-// playerThree.hands = [9, 11, 13]
-// playerFour.hands = [9, 11, 13]
+// playerOne.hands = [2, 5, 9]
+// playerTwo.hands = [3, 9, 9]
+// playerThree.hands = [2, 6, 13]
+// playerFour.hands = [4, 4, 9]
 
-let THREEOFAKIND = [];
-let STRAIGHT = [];
-let ONEPAIR = [];
+
 
 const isThreeOfAKind = (object) => {
     return object.hands.every(((val, i, arr) => val === arr[0]));
@@ -99,11 +97,6 @@ const isOnePair = (object) => {
         return true;
     }
 }
-
-shuffledDistribution.forEach((element) => (isThreeOfAKind(element) ? THREEOFAKIND.push(element.name) : ""))
-shuffledDistribution.forEach((element) => (isStraight(element) ? STRAIGHT.push(element.name) : ""))
-shuffledDistribution.forEach((element) => (isOnePair(element) ? ONEPAIR.push(element.name) : ""))
-
 
 const extraDealt = (array) => {
     if (array.length > 1) {
@@ -140,8 +133,17 @@ const extraDealt = (array) => {
     }
 }
 
-const checkWin = () => {
+const checkWin = (array) => {
+    let THREEOFAKIND = [];
+    let STRAIGHT = [];
+    let ONEPAIR = [];
+    let shuffledDistribution = [...array];
     let newDistribution = [];
+
+    shuffledDistribution.forEach((element) => (isThreeOfAKind(element) ? THREEOFAKIND.push(element.name) : ""))
+    shuffledDistribution.forEach((element) => (isStraight(element) ? STRAIGHT.push(element.name) : ""))
+    shuffledDistribution.forEach((element) => (isOnePair(element) ? ONEPAIR.push(element.name) : ""))
+
     if (THREEOFAKIND.length !== 0) {
         if (THREEOFAKIND.length === 1) {
             return THREEOFAKIND[0];
@@ -471,6 +473,6 @@ const checkWin = () => {
 }
 // console.log(shuffledDistribution)
 
-console.log("The winner is Player " + checkWin() + "!");
+console.log("The winner is Player " + checkWin(shuffledDistribution) + "!");
 
-module.exports = { shuffleArray, isThreeOfAKind }
+module.exports = { shuffleArray, isThreeOfAKind, checkWin }
