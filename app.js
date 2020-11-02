@@ -139,12 +139,13 @@ const extraDealt = (array, balanceDeck) => {
     }
 }
 
-const checkWin = (array) => {
+const checkWin = (array, balanceDeck) => {
     let THREEOFAKIND = [];
     let STRAIGHT = [];
     let ONEPAIR = [];
     let shuffledDistribution = [...array];
     let newDistribution = [];
+    let shuffledDeck = balanceDeck;
 
     shuffledDistribution.forEach((element) => (isThreeOfAKind(element) ? THREEOFAKIND.push(element.name) : ""))
     shuffledDistribution.forEach((element) => (isStraight(element) ? STRAIGHT.push(element.name) : ""))
@@ -479,6 +480,6 @@ const checkWin = (array) => {
 }
 // console.log(shuffledDistribution)
 
-console.log("The winner is Player " + checkWin(shuffledDistribution) + "!");
+console.log("The winner is Player " + checkWin(shuffledDistribution, shuffledDeck) + "!");
 
 module.exports = { checkWin, extraDealt }
